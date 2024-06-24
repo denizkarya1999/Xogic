@@ -6,25 +6,39 @@ namespace ProcessWords
 {
     class Program
     {
+        static string? userCommand; //Sets the user command.
+        static string? input; //Sets the sentence recieved by the user.
         static string status; //Sets the status of the person based on the string.
         static bool Processing_Is_Successful = false; //A boolean expression to check whether process was succesful or not.
+
         static void Main()
         {
-            // Prompt user to enter data.
+            Console.WriteLine("What would you like to check for?");
+            Console.WriteLine("-> checkStudent - Check whether they are student or not.");
+            Console.WriteLine("-> checkEmployment - Check whether they are employee or not.");
+            Console.WriteLine();
+            Console.Write("->" + " ");
+
+            // Input commands from the user
+            userCommand = Console.ReadLine();
+
+            Console.WriteLine(); // Blank space
+
+            // Prompt user to enter the sentence.
             Console.WriteLine("Describe the person here: ");
             Console.WriteLine();
             Console.Write("->" + " ");
 
             // Input words from the user
-            string? input = Console.ReadLine();
+            input = Console.ReadLine();
 
             // Trim the string into words
             string[] words = ParseWords(input);
 
             // Perform the operation and get a result.
-           Processing_Is_Successful = processWords("checkStudent", words);
+           Processing_Is_Successful = processWords(userCommand, words);
 
-            Console.WriteLine();
+            Console.WriteLine(); // Blank space
 
             // If process is succesful, print out the status. Otherwise print an error message.
             if (Processing_Is_Successful)
@@ -62,13 +76,25 @@ namespace ProcessWords
             // Check the command and perform the action.
             switch (command)
             {
+                // Check whether they are student.
                 case "checkStudent":
                     if (Student.checkStudentStatus(words)){
                         status = "Student";
                     }
                     return Student.checkStudentStatus(words);
+
+                // Check whether they are employee.
+                case "checkEmployment":
+                    if (Employee.CheckEmployeeStatus(words))
+                    {
+                        status = "Employee";
+                    }
+                    return Employee.CheckEmployeeStatus(words);
+
+                // In other cases, return false
+                default:
+                    return false;
             }
-            return false;
         }
     }
 }
